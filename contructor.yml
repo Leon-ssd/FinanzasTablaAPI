@@ -1,0 +1,43 @@
+# ~/Documentos/Finanzas/contructor.yml
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: finanzas_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - finanzas_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./Finanzas
+      dockerfile: Dockerfile
+    container_name: finanzas_api
+    restart: unless-stopped
+    ports:
+      - "${API_HOST_PORT}:${API_CONTAINER_PORT}"
+    environment:
+      PORT: ${API_CONTAINER_PORT}
+      CONNECTION_STRING: ${CONNECTION_STRING}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - finanzas_net
+
+volumes:
+  postgres_data:
+
+networks:
+  finanzas_net:
+    driver: bridge

@@ -1,0 +1,15 @@
+# ~/Documentos/Finanzas/.gitignore
+
+# Variables de entorno con credenciales reales
+.env
+
+# Compilación de .NET
+bin/
+obj/
+
+# Archivos de usuario y editores
+.vs/
+.vscode/
+*.user
+*.suo
+.DS_Store

@@ -1,0 +1,41 @@
+# ~/Documentos/Finanzas/despliegue.yml
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: finanzas_postgres_prod
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    networks:
+      - finanzas_prod_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: leonardocaceres/finanzas-api:v1.0
+    container_name: finanzas_api_prod
+    restart: unless-stopped
+    ports:
+      - "${API_HOST_PORT}:${API_CONTAINER_PORT}"
+    environment:
+      PORT: ${API_CONTAINER_PORT}
+      CONNECTION_STRING: ${CONNECTION_STRING}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - finanzas_prod_net
+
+volumes:
+  postgres_prod_data:
+
+networks:
+  finanzas_prod_net:
+    driver: bridge

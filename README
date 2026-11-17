@@ -1,0 +1,21 @@
+# Proyecto Finanzas - Backend API (.NET 10 + PostgreSQL + Docker)
+
+API RESTful desarrollada en **.NET 10** con **Entity Framework Core** y persistencia en **PostgreSQL**, contenerizada con Docker y orquestada mediante Docker Compose.
+
+## Integrantes y Tablas Implementadas
+
+| Integrante | Tabla Asignada | Endpoint Base |
+| :--- | :--- | :--- |
+| **Leo** *(Completa tu nombre)* | `monedas` (`Moneda`) | `/api/monedas` |
+| *Integrante 2* | *Tabla 2* | `/api/...` |
+| *Integrante 3* | *Tabla 3* | `/api/...` |
+
+## Imagen en Docker Hub
+- **Repositorio:** `https://hub.docker.com/r/<TU_USUARIO_DOCKERHUB>/finanzas-api`
+- **Etiqueta exacta:** `<TU_USUARIO_DOCKERHUB>/finanzas-api:v1.0`
+
+## Requisitos Previos
+- Docker y Docker Compose v2 instalados.
+- Crear un archivo `.env` en la raíz a partir de `.env.example`:
+  ```bash
+  cp .env.example .env

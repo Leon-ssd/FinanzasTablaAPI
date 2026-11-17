@@ -1,0 +1,6 @@
+# ~/Documentos/Finanzas/Finanzas/.dockerignore
+bin/
+obj/
+.vs/
+.vscode/
+*.user
